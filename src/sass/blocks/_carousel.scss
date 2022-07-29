@@ -1,0 +1,22 @@
+.carousel {
+    padding: 81px 0;
+    &__inner {
+        margin: 0 auto;
+        display: flex;
+    }
+    &__sliders {
+        width: 750px;
+    }
+        
+    &__slider-prev {
+        margin-right: 66px;
+        margin-top: 315px;
+        cursor: pointer;
+    }
+    &__slider-next {
+        margin-left: 66px;
+        margin-top: 315px;
+        cursor: pointer;
+    }
+}
+
