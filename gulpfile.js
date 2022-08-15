@@ -8,6 +8,8 @@ const imagemin = require('gulp-imagemin');
 const htmlmin = require('gulp-htmlmin'); 
 const webpack = require("webpack-stream");
 
+const dist = "./dist/"
+
 // Static server
 gulp.task('server', function () {
     browserSync.init({
@@ -59,10 +61,18 @@ gulp.task('watch', function () {
     gulp.watch('./src/js/*.js').on('change', browserSync.reload);
 });
 
+
 gulp.task(
     'default',
     gulp.parallel('watch', 'server', 'styles', 'html', 'scripts', 'fonts', 'icons','html', 'images')
 );
+
+gulp.task("copy-html", () => {
+    return gulp.src("./src/index.html")
+                .pipe(gulp.dest(dist))
+                .pipe(browserSync.stream());
+});
+
 gulp.task("build-js", () => {
     return gulp.src("./src/js/main.js")
                 .pipe(webpack({
@@ -80,11 +90,7 @@ gulp.task("build-js", () => {
                             use: {
                               loader: 'babel-loader',
                               options: {
-                                presets: [['@babel/preset-env', {
-                                    debug: true,
-                                    corejs: 3,
-                                    useBuiltIns: "usage"
-                                }]]
+                                presets: ["@babel/preset-env"]
                               }
                             }
                           }
@@ -92,5 +98,12 @@ gulp.task("build-js", () => {
                       }
                 }))
                 .pipe(gulp.dest(dist))
-                .on("end", browsersync.reload);
+                .on("end", browserSync.reload);
 });
+
+    
+    gulp.watch("./src/index.html", gulp.parallel("copy-html"));
+    gulp.watch("./src/js/**/*.js", gulp.parallel("build-js"));
+
+gulp.task("build", gulp.parallel('copy-html', "build-js"));
+
