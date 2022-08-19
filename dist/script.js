@@ -19,7 +19,7 @@ var forms = function forms() {
   var forms = document.querySelectorAll('form'),
       inputs = document.querySelectorAll('input');
   var message = {
-    loading: 'Загрузка',
+    loading: '../src/img/spinner.svg',
     success: 'Спасибо за вашу заявку!',
     successText: 'Наш менеджер свяжется с вами в ближайшее время!',
     failure: 'Что-то пошло не так...'
@@ -31,29 +31,32 @@ var forms = function forms() {
   function postData(form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var statusMessage = document.createElement('div');
-      statusMessage.classList.add('status');
-      statusMessage.textContent = message.loading;
-      form.append(statusMessage);
-      var request = new XMLHttpRequest();
-      request.open('POST', '../src/server.php');
-      request.setRequestHeader('Content-type', 'application/json');
+      var statusMessage = document.createElement('img');
+      statusMessage.src = message.loading;
+      statusMessage.style.cssText = "\n            display: block;\n            margin: 0 auto;\n            ";
+      form.insertAdjacentElement('afterend', statusMessage);
       var formData = new FormData(form);
       var object = {};
       formData.forEach(function (value, key) {
         object[key] = value;
       });
-      var json = JSON.stringify(object);
-      request.send(json);
-      request.addEventListener('load', function () {
-        if (request.status === 200) {
-          console.log(request.response);
-          showThanksModal(message.success);
-          form.reset();
-          statusMessage.remove();
-        } else {
-          showThanksModal(message.failure);
-        }
+      fetch('../src/server.php', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(object)
+      }).then(function (data) {
+        return data.text();
+      }).then(function (data) {
+        console.log(data);
+        showThanksModal(message.success);
+        form.reset();
+        statusMessage.remove();
+      })["catch"](function () {
+        showThanksModal(message.failure);
+      })["finally"](function () {
+        form.reset();
       });
     });
   }
@@ -134,7 +137,7 @@ var modals = function modals(triggerSelector, modalSelector, closeSelector) {
     });
   });
   overlay.addEventListener('click', function (e) {
-    if (e.target === overlay || e.target.matches('modal__close')) {
+    if (e.target === overlay || e.target.matches('.modal__close')) {
       closeModal(modalSelector);
     }
   });
