@@ -152,6 +152,54 @@ var modals = function modals(triggerSelector, modalSelector, closeSelector) {
 
 
 
+/***/ }),
+
+/***/ "./src/js/modules/slider.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/slider.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var slider = function slider() {
+  var slides = document.querySelectorAll('.carousel__slide'),
+      prev = document.querySelector('.carousel__slider-prev'),
+      next = document.querySelector('.carousel__slider-next');
+  var slideIndex = 1;
+  showSlides(slideIndex);
+
+  function showSlides(n) {
+    if (n > slides.length) {
+      slideIndex = 1;
+    }
+
+    if (n < 1) {
+      slideIndex = slides.length;
+    }
+
+    slides.forEach(function (item) {
+      return item.style.display = 'none';
+    });
+    slides[slideIndex - 1].style.display = 'block';
+  }
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  prev.addEventListener('click', function () {
+    plusSlides(-1);
+  });
+  next.addEventListener('click', function () {
+    plusSlides(1);
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (slider);
+
 /***/ })
 
 /******/ 	});
@@ -219,12 +267,15 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
+/* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/slider */ "./src/js/modules/slider.js");
+
 
 
 window.addEventListener('DOMContentLoaded', function () {
   (0,_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-open="consultation"]', '#consultation', '.modal__close');
   (0,_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-open="order"]', '#order', '.modal__close');
   (0,_modules_forms__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  (0,_modules_slider__WEBPACK_IMPORTED_MODULE_2__["default"])();
 });
 })();
 

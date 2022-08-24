@@ -48,7 +48,7 @@ close.forEach(item => {
 });
 
 overlay.addEventListener('click', (e) => {
-    if (e.target === overlay || e.target.matches('modal__close')) {
+    if (e.target === overlay || e.target.matches('.modal__close')) {
         closeModal(modalSelector);
     }
 });

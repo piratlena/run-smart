@@ -5,7 +5,7 @@ const forms = () => {
         inputs = document.querySelectorAll('input');
     
     const message = {
-        loading: 'Загрузка',
+        loading: '../src/img/spinner.svg',
         success: 'Спасибо за вашу заявку!',
         successText: 'Наш менеджер свяжется с вами в ближайшее время!',
         failure: 'Что-то пошло не так...'
@@ -19,35 +19,40 @@ const forms = () => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const statusMessage = document.createElement('div');
-            statusMessage.classList.add('status');
-            statusMessage.textContent = message.loading;
-            form.append(statusMessage);
+            const statusMessage = document.createElement('img');
+            statusMessage.src = message.loading;
+            statusMessage.style.cssText = `
+            display: block;
+            margin: 0 auto;
+            `;
+            form.insertAdjacentElement('afterend', statusMessage);
 
-            const request = new XMLHttpRequest();
-            request.open('POST', '../src/server1.php');
-
-            request.setRequestHeader('Content-type', 'application/json')
             const formData = new FormData(form);
 
             const object = {};
             formData.forEach(function(value, key) {
                 object[key] = value;
-            });
+             });
 
-            const json = JSON.stringify(object);
-
-            request.send(json);
-
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(message.success);
-                    form.reset();
-                    statusMessage.remove();
-                } else {
-                    showThanksModal(message.failure);
-                }
+            fetch('../src/server.php', {
+                method: 'POST',
+                headers: {
+                  'Content-type': 'application/json'
+                 },
+                body: JSON.stringify(object),
+            })
+            .then(data => data.text())
+            .then(data => {
+                console.log(data);
+                showThanksModal(message.success);
+                form.reset();
+                statusMessage.remove();
+            })
+            .catch(() => {
+                showThanksModal(message.failure);
+            })
+            .finally(() => {
+                form.reset();
             });
         });
     }
