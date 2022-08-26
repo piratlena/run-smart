@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/piratlena/run-smart#readme",
   "dependencies": {
+    "animate.css": "^4.1.1",
     "browser-sync": "^2.27.10",
     "node-sass": "^7.0.1",
-    "security-audit-nodejs": "^0.1.2"
+    "security-audit-nodejs": "^0.1.2",
+    "wow.js": "^1.2.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.18.10",

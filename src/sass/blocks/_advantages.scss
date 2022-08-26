@@ -23,6 +23,12 @@
             display: block;
             margin: 0 auto;
         }
+        &_animated {
+            animation: heartbeat 1.5s ease infinite;
+            &:hover {
+                animation-play-state: paused;
+            }
+        }
     }
     &__subtitle {
         margin-top: 38px;

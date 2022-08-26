@@ -9,4 +9,5 @@ window.addEventListener('DOMContentLoaded', () => {
     modals('[data-open="order"]', '#order', '.modal__close');
     forms();
     slider();
+    new WOW().init();
 });

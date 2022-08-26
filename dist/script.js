@@ -276,6 +276,7 @@ window.addEventListener('DOMContentLoaded', function () {
   (0,_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-open="order"]', '#order', '.modal__close');
   (0,_modules_forms__WEBPACK_IMPORTED_MODULE_1__["default"])();
   (0,_modules_slider__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  new WOW().init();
 });
 })();
 
